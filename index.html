@@ -1,6 +1,171 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ASI01 代理目標劫持</title>
-<meta http-equiv="refresh" content="0; url=ASI01-Agent-Goal-Hijack.html">
-<link rel="canonical" href="ASI01-Agent-Goal-Hijack.html">
-</head><body><p>正在前往 <a href="ASI01-Agent-Goal-Hijack.html">ASI01 代理目標劫持 互動式說明</a>…</p></body></html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OWASP Agentic Top 10 · 2026 簡報目錄</title>
+<meta name="description" content="OWASP Top 10 for Agentic Applications（2026 版）十項風險的中文簡報目錄，每項一頁互動式說明。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --fg:#18212d; --muted:#5a6676; --line:#dde3ea;
+  --accent:#0d6b73; --accent-soft:#e1f0f1;
+  --up:#1f7a3d; --up-soft:#e2f3e7; --down:#b3261e; --down-soft:#fbe7e5;
+  --bar:#18212d; --bar-fg:#f4f6f8;
+  --f-display:"Noto Serif TC","Songti TC",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151c; --paper:#171e27; --fg:#e4e9ef; --muted:#9aa6b4; --line:#2a3440;
+  --accent:#5ec2c9; --accent-soft:#16333a;
+  --up:#6fd394; --up-soft:#173322; --down:#f2867d; --down-soft:#3a1f1d;
+  --bar:#e4e9ef; --bar-fg:#10151c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10151c; --paper:#171e27; --fg:#e4e9ef; --muted:#9aa6b4; --line:#2a3440;
+  --accent:#5ec2c9; --accent-soft:#16333a;
+  --up:#6fd394; --up-soft:#173322; --down:#f2867d; --down-soft:#3a1f1d;
+  --bar:#e4e9ef; --bar-fg:#10151c; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.75}
+h1,h2,h3{font-family:var(--f-display);line-height:1.35;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px))}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.badge{font-family:var(--f-mono);font-size:.75rem;font-weight:600;background:var(--bar);color:var(--bar-fg);padding:2px 8px;border-radius:3px;flex:none}
+.top-title{font-family:var(--f-display);font-weight:900;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme{margin-left:auto;flex:none;border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:999px;padding:3px 12px;font:inherit;font-size:.82rem;cursor:pointer}
+.theme:hover{border-color:var(--accent);color:var(--accent)}
+
+/* hero */
+.hero{padding:48px 0 28px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+.hero h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:900}
+.hero h1 small{display:block;font-family:var(--f-mono);font-size:.9rem;font-weight:400;letter-spacing:.04em;color:var(--muted);margin-top:6px}
+.lede{max-width:46em;color:var(--muted);font-size:1.02rem}
+.how{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.88rem;color:var(--muted)}
+.how span{display:inline-flex;align-items:center;gap:6px}
+.how a{color:var(--accent)}
+.chip{font-style:normal;font-family:var(--f-mono);font-size:.72rem;font-weight:600;padding:1px 7px;border-radius:999px;white-space:nowrap}
+.chip.t{background:var(--accent-soft);color:var(--accent)}
+.chip.ev{background:var(--down-soft);color:var(--down)}
+
+/* grid */
+.grid{list-style:none;margin:0;padding:0 0 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+@media (max-width:400px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{height:100%}
+.card a{position:relative;display:flex;flex-direction:column;gap:12px;height:100%;padding:20px 20px 18px;background:var(--paper);border:1px solid var(--line);border-radius:10px;text-decoration:none;transition:border-color .15s,transform .15s,box-shadow .15s}
+.card a:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px -12px rgba(0,0,0,.35)}
+.card .head{display:flex;align-items:flex-start;gap:14px}
+.num{font-family:var(--f-display);font-weight:900;font-size:2.6rem;line-height:1;color:var(--accent);font-variant-numeric:tabular-nums;flex:none;min-width:2.2ch}
+.card h2{font-size:1.25rem;font-weight:900}
+.card h2 small{display:block;font-family:var(--f-mono);font-size:.74rem;font-weight:400;color:var(--muted);letter-spacing:.02em;margin-top:2px}
+.card p{font-size:.93rem;color:var(--fg)}
+.meta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:12px;border-top:1px dashed var(--line);font-size:.8rem;color:var(--muted)}
+.rank{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-family:var(--f-mono)}
+.go{font-weight:700;color:var(--accent);white-space:nowrap}
+.card a:hover .go{text-decoration:underline}
+
+/* incidents strip */
+.moves{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:28px}
+.moves h3{font-size:1.05rem;margin-bottom:4px}
+.moves .sub{font-size:.85rem;color:var(--muted);margin-bottom:14px}
+.mv{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;align-items:end}
+.mv a{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;padding:10px 4px;border-radius:8px;background:var(--bg);text-decoration:none;font-family:var(--f-mono);font-size:.72rem;color:var(--muted);height:100%}
+.mv a:hover{outline:1px solid var(--accent)}
+.mv .bar{width:60%;max-width:28px;border-radius:4px 4px 0 0;background:var(--accent);opacity:.85}
+.mv b{font-size:1.05rem;color:var(--fg)}
+@media (max-width:760px){.mv{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+footer{border-top:1px solid var(--line);padding:22px 0 40px;font-size:.82rem;color:var(--muted)}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.card a{transition:none}.card a:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <span class="badge">Agentic Top 10</span>
+  <span class="top-title">OWASP 代理式 AI 風險簡報目錄</span>
+  <button class="theme" id="theme" type="button" aria-label="切換深色或淺色">深 / 淺</button>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow">OWASP Top 10 for Agentic Applications · 2026</span>
+    <h1>AI 代理的十大風險<small>OWASP Top 10 for Agentic Applications · 2026 · ASI01–ASI10</small></h1>
+    <p class="lede">AI 代理會自己規劃、呼叫工具、委派工作，風險也跟著從「說錯話」變成「做錯事」。十項風險各有一份互動式簡報，用白話與比喻說明它怎麼發生、會造成什麼傷害，以及該怎麼防。點任一張卡片開始閱讀。</p>
+    <div class="how">
+      <span>卡片標示：</span>
+      <span><i class="chip t">T2</i> 對應《Agentic AI Threats &amp; Mitigations》威脅代碼</span>
+      <span><i class="chip ev">事件 9</i> 附錄 D 中被標為該項的 2025 年事件數</span>
+      <span>姊妹系列：<a href="https://bojack-tw.github.io/OWASP-GenAI-LLM-Top-10/">LLM Top 10 簡報目錄</a></span>
+    </div>
+  </section>
+
+  <ol class="grid" id="grid" aria-label="十項風險簡報"></ol>
+
+  <section class="moves" aria-labelledby="mvh">
+    <h3 id="mvh">一眼看真實事件數</h3>
+    <p class="sub">OWASP 附錄 D 事件追蹤表中，被標為各項的 2025 年事件數（一個事件常同時屬於好幾項）</p>
+    <div class="mv" id="mv"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>內容依據 <a href="https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/" target="_blank" rel="noopener">OWASP Top 10 for Agentic Applications for 2026</a>（OWASP GenAI Security Project，CC BY-SA 4.0）整理，供內部教育訓練使用。</p>
+  <p>各頁皆為獨立網頁，可單獨分享連結。</p>
+</div></footer>
+
+<script>
+const items = [
+  {n:1,  zh:"代理目標劫持",       en:"Agent Goal Hijack",                    f:"ASI01-Agent-Goal-Hijack.html",                 t:"T6・T7",       ev:9,  tl:"攻擊者不只是騙 AI 講錯一句話，而是偷偷改掉它整趟任務的「目的地」。"},
+  {n:2,  zh:"工具濫用與利用",     en:"Tool Misuse and Exploitation",         f:"ASI02-Tool-Misuse-and-Exploitation.html",      t:"T2",           ev:10, tl:"工具是真的、權限也是給它的，問題出在代理「把好工具用在錯的地方」。"},
+  {n:3,  zh:"身分與權限濫用",     en:"Identity and Privilege Abuse",         f:"ASI03-Identity-and-Privilege-Abuse.html",      t:"T3",           ev:4,  tl:"代理沒有自己的身分，只能借別人的鑰匙辦事，而這串鑰匙一路被轉手、被留著、被冒用。"},
+  {n:4,  zh:"代理供應鏈漏洞",     en:"Agentic Supply Chain Vulnerabilities", f:"ASI04-Agentic-Supply-Chain-Vulnerabilities.html", t:"T17",       ev:7,  tl:"代理用的零件大多是別人做的，而且邊跑邊裝。上游一個零件被動手腳，下游全部跟著中毒。"},
+  {n:5,  zh:"非預期程式碼執行",   en:"Unexpected Code Execution (RCE)",      f:"ASI05-Unexpected-Code-Execution.html",         t:"T11",          ev:9,  tl:"代理會自己寫程式、自己執行。一段文字被「變成」可執行的東西，攻擊者就能直接在主機上動手。"},
+  {n:6,  zh:"記憶與情境汙染",     en:"Memory & Context Poisoning",           f:"ASI06-Memory-and-Context-Poisoning.html",      t:"T1",           ev:4,  tl:"騙代理一次，只影響這一次；改掉它的記憶，它就會一直錯下去，還會傳染給其他代理。"},
+  {n:7,  zh:"不安全的代理間通訊", en:"Insecure Inter-Agent Communication",   f:"ASI07-Insecure-Inter-Agent-Communication.html", t:"T12・T16",    ev:6,  tl:"代理之間一直在傳紙條。沒封口、沒簽名、沒日期，就會被偷看、偷改、冒名，或把舊紙條再丟一次。"},
+  {n:8,  zh:"連鎖失效",           en:"Cascading Failures",                   f:"ASI08-Cascading-Failures.html",                t:"T5・T8",       ev:3,  tl:"一個小錯誤不可怕，可怕的是代理會自動把它傳下去：越傳越多、越傳越快，最後整個系統一起倒。"},
+  {n:9,  zh:"人與代理的信任被利用", en:"Human-Agent Trust Exploitation",     f:"ASI09-Human-Agent-Trust-Exploitation.html",    t:"T7・T8・T10",  ev:3,  tl:"攻擊者不用騙過系統，只要讓代理去「說服你」。最後按下核准的是你，紀錄上也只有你的名字。"},
+  {n:10, zh:"流氓代理",           en:"Rogue Agents",                         f:"ASI10-Rogue-Agents.html",                      t:"T13",          ev:2,  tl:"每個動作看起來都合法、儀表板一片綠燈，但整體行為已經不是你設計的那個代理了。"}
+];
+const pad = n => String(n).padStart(2,"0");
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const max = Math.max(...items.map(it => it.ev));
+
+document.getElementById("grid").innerHTML = items.map(it => `
+  <li class="card"><a href="${it.f}" aria-label="ASI${pad(it.n)} ${esc(it.zh)}：開啟簡報">
+    <div class="head">
+      <span class="num">${pad(it.n)}</span>
+      <h2>${esc(it.zh)}<small>ASI${pad(it.n)} · ${esc(it.en)}</small></h2>
+    </div>
+    <p>${esc(it.tl)}</p>
+    <div class="meta">
+      <span class="rank"><i class="chip t">${esc(it.t)}</i><i class="chip ev">事件 ${it.ev}</i></span>
+      <span class="go">開啟簡報 →</span>
+    </div>
+  </a></li>`).join("");
+
+document.getElementById("mv").innerHTML = items.map(it => `
+  <a href="${it.f}" title="ASI${pad(it.n)} ${esc(it.zh)}：${it.ev} 個事件">
+    <span>${it.ev}</span><span class="bar" style="height:${Math.round(it.ev / max * 72) + 6}px"></span><b>${pad(it.n)}</b>
+  </a>`).join("");
+
+/* theme toggle (per-viewer convenience) */
+const root = document.documentElement, KEY = "owasp-agentic-index-theme";
+try { const t = localStorage.getItem(KEY); if (t) root.dataset.theme = t; } catch (e) {}
+document.getElementById("theme").addEventListener("click", () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem(KEY, root.dataset.theme); } catch (e) {}
+});
+</script>
+</body>
+</html>
